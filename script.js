@@ -1,25 +1,5 @@
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('visible') })
-}, { threshold: 0.12 })
-document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
-
-const nav = document.querySelector('.nav')
-const menu = document.querySelector('.menu')
-menu?.addEventListener('click', () => {
-  const open = nav.classList.toggle('open')
-  menu.setAttribute('aria-expanded', String(open))
-  menu.textContent = open ? '×' : '☰'
-})
-document.querySelectorAll('.nav-links a').forEach((link) => link.addEventListener('click', () => {
-  nav.classList.remove('open'); menu?.setAttribute('aria-expanded','false'); if(menu) menu.textContent='☰'
-}))
-
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const orbs = [...document.querySelectorAll('.orb')]
-  let tx = 0, ty = 0
-  addEventListener('pointermove', (event) => {
-    tx = (event.clientX / innerWidth - .5) * 10
-    ty = (event.clientY / innerHeight - .5) * 10
-    orbs.forEach((orb, i) => orb.style.margin = `${ty * (i % 2 ? -1 : 1)}px 0 0 ${tx * (i % 2 ? 1 : -1)}px`)
-  }, { passive: true })
-}
+const panels={listen:{step:'01 — Listen',title:'I start with people, not posting schedules.',copy:'Audience behaviour, comments, competitor signals and search trends reveal what is actually worth saying.',proof:'Used targeted engagement and audience insight to help Theworddaily grow by 8,500% in 30 days.',target:'#case-growth'},create:{step:'02 — Create',title:'Useful ideas deserve a good outfit.',copy:'I turn strategy into posts, articles, carousels, short-form video and visual systems that feel clear—not corporate.',proof:'Content work across InnovationChannelTV, Theworddaily, Kiwi Consulting Group and Hallmark Janitors.',target:'#case-growth'},analyse:{step:'03 — Analyse',title:'The dashboard is not the insight.',copy:'I clean data, investigate patterns and explain what the numbers mean for the next decision.',proof:'Built retention intelligence across 10,127 customer records using SQL, Power Query, DAX and Power BI.',target:'#case-retention'},automate:{step:'04 — Automate',title:'Repetition is a design problem.',copy:'I connect tools and structure workflows so people spend less time collecting information and more time using it.',proof:'Reduced recurring research from more than 10 hours to a focused 30-minute review.',target:'#case-research'},organise:{step:'05 — Organise',title:'Chaos, but with better labels.',copy:'Operational reporting, verification and workflow design make the work visible enough to improve.',proof:'Consolidated Asana and ClickUp into one Notion workspace, saving about 20 minutes per person daily for a 10-person team.',target:'#story'},results:{step:'The receipts',title:'Good work should leave evidence.',copy:'Growth, time saved, clearer decisions and systems people can actually use. Those are the outputs I care about.',proof:'8,500% growth · 10+ hours to 30 minutes · 10,127 records · 17-node automated pipeline.',target:'#work'}};
+const dialog=document.querySelector('.panel');const close=dialog.querySelector('.panel-close');document.querySelectorAll('.key').forEach(key=>key.addEventListener('click',()=>{const data=panels[key.dataset.panel];dialog.querySelector('.panel-step').textContent=data.step;dialog.querySelector('#panel-title').textContent=data.title;dialog.querySelector('.panel-copy').textContent=data.copy;dialog.querySelector('.panel-proof').textContent=data.proof;dialog.querySelector('.panel-link').href=data.target;dialog.showModal()}));close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});dialog.querySelector('.panel-link').addEventListener('click',()=>dialog.close());
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const header=document.querySelector('.topbar');const menu=document.querySelector('.menu');menu.addEventListener('click',()=>{const open=header.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'Close':'Menu'});document.querySelectorAll('.topbar nav a').forEach(a=>a.addEventListener('click',()=>{header.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='Menu'}));
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){const floaters=[...document.querySelectorAll('.floaters i')];addEventListener('pointermove',event=>{const x=(event.clientX/innerWidth-.5)*9;const y=(event.clientY/innerHeight-.5)*9;floaters.forEach((orb,i)=>{orb.style.margin=`${y*(i+1)*.35}px 0 0 ${x*(i+1)*.35}px`})},{passive:true})}
